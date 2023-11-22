@@ -1,13 +1,34 @@
+@font-face {
+    font-family: Passion-One;
+    src: url(Passion_One/PassionOne-Regular.ttf);
+}
+
 html,
 body{
+    margin: 0;
+    padding: 0;
     height: 100vh;
     width: 100vw;
 }
 
 body{
+    --minor-background: rgb(226, 226, 226);
     display: grid;
-    grid-template-columns: 2fr 1.5fr 2fr;
+    grid-template-columns: 1fr 5vw 1fr;
     grid-template-rows: 1;
+    transition: grid-template-columns 0.5s ease-in-out;
+}
+
+body.expand-form{
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#finished-books-container,
+#unfinished-books-container{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--minor-background);
+    z-index: 0;
 }
 
 #finished-books-container{
@@ -15,35 +36,73 @@ body{
 }
 
 h1{
+    font-family: Passion-One;
+    font-weight: 10;
+    letter-spacing: 3px;
+    font-size: 45px;
     text-align: center;
 }
 
-#finished-books-list{
+#finished-books-list,
+#unfinished-books-list{
     list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 0 50px;
+}
+
+.finished-book-card,
+.unfinished-book-card{
+    background-color: white;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px black;
 }
 
 #input-container{
     grid-column: 2 / 3;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    padding: 0 50px;
+    align-items: center;
+    padding: 50px 75px;
     gap: 50px;
+    background-color: rgb(151, 181, 224);
+    box-shadow: 0 0 50px black;
+    z-index: 1;
 }
 
-form{
-    display: flex;
+#form{
     flex-direction: column;
     gap: 30px;
+    background-color: var(--minor-background);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 25px black;
+    align-self: stretch;
+}
+
+.hide-form{
+    display: none;
+}
+
+.show-form{
+    display: flex;
 }
 
 .book-info{
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 
 label{
-    font-size: 20px;
+    font-family: Passion-One;
+    font-weight: 10;
+    letter-spacing: 2px;
+    font-size: 30px;
 }
 
 button{
