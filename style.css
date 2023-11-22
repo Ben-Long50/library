@@ -1,0 +1,60 @@
+html,
+body{
+    height: 100vh;
+    width: 100vw;
+}
+
+body{
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 2fr;
+    grid-template-rows: 1;
+}
+
+#finished-books-container{
+    grid-column: 1 / 2;
+}
+
+h1{
+    text-align: center;
+}
+
+#finished-books-list{
+    list-style: none;
+}
+
+#input-container{
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 50px;
+    gap: 50px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.book-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+label{
+    font-size: 20px;
+}
+
+button{
+    flex-grow: 0;
+    width: 30%;
+}
+
+#unfinished-books-container{
+    grid-column: 3 / 4;
+}
+
+#unfinished-books-list{
+    list-style: none;
+}
