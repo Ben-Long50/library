@@ -13,9 +13,9 @@
         <ul id="finished-books-list">
         </ul>
     </div>
-    <div id="input-container">
-        <button id="form-button">Add a Book to Your Library</button>
-        <div id="form" class="hide-form">
+    <button id="form-button">Add a Book to Your Library</button>
+    <dialog>
+        <form method="dialog">
             <div class="book-info">
                 <label for="title">Title:</label>
                 <input type="text" name="title" id="title">
@@ -36,9 +36,12 @@
                 <label for="unfinished">Unfinished</label>
                 <input type="radio" name="status" id="unfinished">
             </div>
-            <button id="submit-button" type="submit">Add Book</button>
-        </div>
-    </div>
+            <div class="book-info">
+                <button id="submit-button" type="submit">Add Book</button>
+                <button id="cancel-button">Cancel</button>
+            </div>
+        </form>
+    </dialog>
     <div id="unfinished-books-container">
         <h1>Unfinished Books</h1>
         <ul id="unfinished-books-list">

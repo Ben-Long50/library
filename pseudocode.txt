@@ -1,0 +1,8 @@
+1. Function to store a new book object into either a finished or unfinished array with respect to the radio check box
+    retrieve the value of the checked box
+    check the value of the checked box for that instance of object
+    push the object into either array based on the retrieved value
+
+2. Function to create DOM elements for the added book object
+
+3. 
