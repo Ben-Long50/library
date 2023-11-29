@@ -13,6 +13,8 @@ body{
 
 body{
     --minor-background: rgb(226, 226, 226);
+    --finished-color: rgb(144, 185, 144);
+    --unfinished-color: rgb(190, 190, 190);
     display: grid;
     grid-template-columns: 1fr .05fr 1fr;
     grid-template-rows: 1;
@@ -38,26 +40,44 @@ h1{
     font-size: 45px;
     text-align: center;
 }
+ p,
+ h2{
+    margin: 0;
+    padding: 0;
+ }
 
 #finished-books-list,
 #unfinished-books-list{
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, clamp(350px, 1fr, 50%));
     gap: 30px;
     padding: 0 50px;
 }
 
 .finished-book-card,
 .unfinished-book-card{
-    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px;
     border-radius: 20px;
-    box-shadow: 0 0 15px black;
+    gap: 30px;
+    transition: transform 0.15s ease-in-out;
+}
+
+.finished-book-card{
+    background: linear-gradient(to right, var(--finished-color), transparent);
+}
+
+.unfinished-book-card{
+    background: linear-gradient(to right, var(--unfinished-color), transparent);
+}
+
+.finished-book-card:hover,
+.unfinished-book-card:hover{
+    transform: translateX(-20px);
 }
 
 .action-button-container{
@@ -65,6 +85,7 @@ h1{
     flex-grow: 1;
     justify-content: space-between;
     align-items: center;
+    gap: 50%;
 }
 
 #form-button{
@@ -74,7 +95,7 @@ h1{
     font-family: Passion-One;
     writing-mode: vertical-lr;
     border: none;
-    background-color: rgb(151, 181, 224);
+    background-color:var(--unfinished-color);
     box-shadow: 0 0 30px black;
     font-size: 40px;
     letter-spacing: 5px;
@@ -88,7 +109,7 @@ h1{
 }
 
 @keyframes add-book {
-    100% {background-color: rgb(139, 187, 139); background-origin: left;}
+    100% {background-color: var(--finished-color)}
 }
 
 dialog{
@@ -110,6 +131,14 @@ form{
     display: flex;
     justify-content: space-between;
     gap: 20px;
+}
+
+.remove-button,
+.status-toggle-button{
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    border: solid darkgray 2px;
 }
 
 .remove-button{
