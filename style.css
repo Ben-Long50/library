@@ -43,7 +43,7 @@ h1{
 #unfinished-books-list{
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 500px));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 30px;
     padding: 0 50px;
 }
@@ -113,6 +113,10 @@ form{
 }
 
 .remove-button{
+
+}
+
+.status-toggle-button{
 
 }
 

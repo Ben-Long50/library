@@ -41,29 +41,29 @@ function addBookToLibrary(book){
     }
 }
 
-Book.prototype.changeStatus = function(book){
-    if(book.status === 'finished'){
-        book.status = 'unfinished';
-    }
-    else if(book.status === 'finished'){
-        book.status = 'unfinished';
-    }
-    displayBook();
-}
-
 finishedBooksList.addEventListener('click', function(e){
+    const bookCard = e.target.closest('li');
+    const index = Array.from(finishedBooksList.children).indexOf(bookCard);
     if(e.target.classList.contains('remove-button')){
-        const bookCard = e.target.closest('li');
-        const index = Array.from(bookCard.parentNode.children).indexOf(bookCard);
+        finishedLibrary.splice(index, 1);
+    }
+    else if(e.target.classList.contains('status-toggle-button')){
+        finishedLibrary[index].status = 'unfinished';
+        addBookToLibrary(finishedLibrary[index]);
         finishedLibrary.splice(index, 1);
     }
     displayBook();
 });
 
 unfinishedBooksList.addEventListener('click', function(e){
+    const bookCard = e.target.closest('li');
+    const index = Array.from(unfinishedBooksList.children).indexOf(bookCard);
     if(e.target.classList.contains('remove-button')){
-        const bookCard = e.target.closest('li');
-        const index = Array.from(bookCard.parentNode.children).indexOf(bookCard);
+        unfinishedLibrary.splice(index, 1);
+    }
+    else if(e.target.classList.contains('status-toggle-button')){
+        unfinishedLibrary[index].status = 'finished';
+        addBookToLibrary(unfinishedLibrary[index]);
         unfinishedLibrary.splice(index, 1);
     }
     displayBook();
@@ -101,7 +101,8 @@ function displayBook(){
         listItem.appendChild(actionButtonContainer);
         actionButtonContainer.classList.add('action-button-container');
         actionButtonContainer.appendChild(statusToggleButton);
-        statusToggleButton.textContent = 'Unread';
+        statusToggleButton.textContent = 'Read';
+        statusToggleButton.classList.add('status-toggle-button');
         actionButtonContainer.appendChild(removeButton);
         removeButton.classList.add('remove-button');
         removeButton.textContent = 'Remove';
@@ -126,6 +127,7 @@ function displayBook(){
         actionButtonContainer.classList.add('action-button-container');
         actionButtonContainer.appendChild(statusToggleButton);
         statusToggleButton.textContent = 'Unread';
+        statusToggleButton.classList.add('status-toggle-button');
         actionButtonContainer.appendChild(removeButton);
         removeButton.classList.add('remove-button');
         removeButton.textContent = 'Remove';
