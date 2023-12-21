@@ -1,7 +1,7 @@
 const domCache = (function() {
     const finishedBooksList = document.getElementById('finished-books-list');
     const unfinishedBooksList = document.getElementById('unfinished-books-list');
-    const libraryDailog = document.querySelector('dialog');
+    const libraryDailog = document.querySelector('#library-dialog');
     const formButton = document.getElementById('form-button');
     const bookForm = document.querySelector('form');
     const title = bookForm.querySelector('#title');
@@ -30,36 +30,46 @@ const domCache = (function() {
     domCache.submitButton.addEventListener('click', () => {
         const statusInput = document.querySelector('input[name="status"]:checked');
         new Book(domCache.title.value, domCache.author.value, domCache.pages.value, statusInput.id);
-        render.populateLibrary(library.finishedLibrary, domCache.finishedBooksList, 'finished-book-card');
-        render.populateLibrary(library.unfinishedLibrary, domCache.unfinishedBooksList, 'unfinished-book-card');
+        if(statusInput.id === 'finished') {
+            render.populateLibrary(library.finishedLibrary, domCache.finishedBooksList, 'finished-book-card');
+        }
+        if(statusInput.id === 'unfinished') {
+            render.populateLibrary(library.unfinishedLibrary, domCache.unfinishedBooksList, 'unfinished-book-card');
+        }
     })
 
     domCache.finishedBooksList.addEventListener('click',(e) => {
+        const bookCardArray = Array.from(domCache.finishedBooksList.children);
         const bookCard = e.target.closest('li');
-        const index = Array.from(domCache.finishedBooksList.children).indexOf(bookCard);
+        const index = bookCardArray.indexOf(bookCard);
         if(e.target.classList.contains('remove-button')){
             library.finishedLibrary.splice(index, 1);
+            render.populateLibrary(library.finishedLibrary, domCache.finishedBooksList, 'finished-book-card');
         }
         else if(e.target.classList.contains('status-toggle-button')){
             library.finishedLibrary[index].status = 'unfinished';
-            library.addBookToLibrary(this);
+            library.addBookToLibrary(library.finishedLibrary[index]);
             library.finishedLibrary.splice(index, 1);
+            render.populateLibrary(library.finishedLibrary, domCache.finishedBooksList, 'finished-book-card');
+            render.populateLibrary(library.unfinishedLibrary, domCache.unfinishedBooksList, 'unfinished-book-card');
         }
-        render.populateLibrary(library.finishedLibrary, domCache.finishedBooksList, 'finished-book-card');
     })
 
     domCache.unfinishedBooksList.addEventListener('click',(e) => {
+        const bookCardArray = Array.from(domCache.unfinishedBooksList.children);
         const bookCard = e.target.closest('li');
-        const index = Array.from(domCache.unfinishedBooksList.children).indexOf(bookCard);
+        const index = bookCardArray.indexOf(bookCard);
         if(e.target.classList.contains('remove-button')){
             library.unfinishedLibrary.splice(index, 1);
+            render.populateLibrary(library.unfinishedLibrary, domCache.unfinishedBooksList, 'unfinished-book-card');
         }
         else if(e.target.classList.contains('status-toggle-button')){
             library.unfinishedLibrary[index].status = 'finished';
-            library.addBookToLibrary(this);
+            library.addBookToLibrary(library.unfinishedLibrary[index]);
             library.unfinishedLibrary.splice(index, 1);
+            render.populateLibrary(library.finishedLibrary, domCache.finishedBooksList, 'finished-book-card');
+            render.populateLibrary(library.unfinishedLibrary, domCache.unfinishedBooksList, 'unfinished-book-card');
         }
-        render.populateLibrary(library.unfinishedLibrary, domCache.unfinishedBooksList, 'unfinished-book-card');
     })
 })()
 
@@ -67,33 +77,45 @@ const render = {
     generateCard: function(book, bookList, bookClass) {
         const listItem = document.createElement('li');
         listItem.classList.add(bookClass);
-
-        listItem.innerHTML = `
-            <h2>${book.title}</h2>
-            <p>Written by: ${book.author}</p>
-            <p>Number of Pages: ${book.pages}</p>
-            <div class="action-button-container">
-                <button class="status-toggle-button">Read</button>
-                <button class="remove-button">Remove</button>
-            </div>
-        `;
-
         bookList.appendChild(listItem);
+
+        const listTitle = document.createElement('h2');
+        listTitle.textContent = book.title;
+        listItem.appendChild(listTitle);
+
+        const listAuthor = document.createElement('p');
+        listAuthor.textContent = 'Written by: ' + book.author;
+        listItem.appendChild(listAuthor);
+
+        const listPages = document.createElement('p');
+        listPages.textContent = 'Number of Pages: ' + book.pages;
+        listItem.appendChild(listPages);
+
+        const actionButtonContainer = document.createElement('div');
+        actionButtonContainer.classList.add('action-button-container');
+        listItem.appendChild(actionButtonContainer);
+
+        const statusToggleButton = document.createElement('button');
+        statusToggleButton.classList.add('status-toggle-button');
+        statusToggleButton.textContent = 'Read';
+        actionButtonContainer.appendChild(statusToggleButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('remove-button');
+        removeButton.textContent = 'Remove';
+        actionButtonContainer.appendChild(removeButton);
     },
 
-    depopulateDom: function(){
-        if(domCache.finishedBooksList.firstChild){
-            domCache.finishedBooksList.removeChild(domCache.finishedBooksList.firstChild);
-        }
-        if(domCache.unfinishedBooksList.firstChild){
-            domCache.unfinishedBooksList.removeChild(domCache.unfinishedBooksList.firstChild);
+    depopulateDom: function(bookList){
+        while(bookList.firstChild){
+            bookList.removeChild(bookList.firstChild);
         }
     },
 
     populateLibrary: function(libraryList, bookList, bookClass) {
-        this.depopulateDom();
+        this.depopulateDom(bookList);
         libraryList.forEach(book => {
             this.generateCard(book, bookList, bookClass);
-        });
+        }, this);
     }
 }
